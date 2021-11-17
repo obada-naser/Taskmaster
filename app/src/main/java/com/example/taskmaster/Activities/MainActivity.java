@@ -3,6 +3,7 @@ package com.example.taskmaster.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,10 +14,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.taskmaster.Adaptor.TaskAdapter;
+import com.example.taskmaster.AppDatabase;
 import com.example.taskmaster.Models.TaskModel;
 import com.example.taskmaster.R;
+import com.example.taskmaster.TaskDao;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,17 +31,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+//
+//        List<TaskModel> taskModels=new ArrayList<TaskModel>();
+//
+//        taskModels.add(new TaskModel("football","It is a famous sport","very good"));
+//        taskModels.add(new TaskModel("hockey","It is a freezing sport"," good"));
+//        taskModels.add(new TaskModel("gds","It is a freezing sport"," nice"));
 
-        List<TaskModel> taskModels=new ArrayList<TaskModel>();
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "database-name").allowMainThreadQueries().fallbackToDestructiveMigration().build();
 
-        taskModels.add(new TaskModel("football","It is a famous sport","very good"));
-        taskModels.add(new TaskModel("hockey","It is a freezing sport"," good"));
-        taskModels.add(new TaskModel("gds","It is a freezing sport"," nice"));
+        TaskDao taskDao = db.taskDao();
+        List<TaskModel>  taskModels = taskDao.getAll();
+
+        System.out.println("****************"+ Arrays.toString(taskModels.toArray())+"************");
 
 
         RecyclerView recyclerView=findViewById(R.id.TaskDetailView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new TaskAdapter(taskModels));
+
+
 
 
 

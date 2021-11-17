@@ -9,8 +9,8 @@
         android:id="@+id/textView5"
         android:layout_width="126dp"
         android:layout_height="43dp"
-        android:layout_marginTop="276dp"
-        android:text=" Task Description"
+        android:layout_marginTop="321dp"
+        android:text=" Status"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.214"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,7 +20,7 @@
         android:id="@+id/textView3"
         android:layout_width="103dp"
         android:layout_height="48dp"
-        android:layout_marginTop="108dp"
+        android:layout_marginTop="60dp"
         android:text="Add Task"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,39 +32,39 @@
         android:id="@+id/textView4"
         android:layout_width="84dp"
         android:layout_height="40dp"
-        android:layout_marginTop="112dp"
-        android:text="Task title"
+        android:layout_marginTop="12dp"
+        android:text="Title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.186"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/titleName"
         android:layout_width="300dp"
         android:layout_height="70dp"
         android:ems="10"
         android:hint="My Task"
         android:inputType="textPersonName"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintBottom_toTopOf="@+id/textView8"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.564"
+        app:layout_constraintHorizontal_bias="0.567"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.145" />
+        app:layout_constraintVertical_bias="0.448" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName5"
+        android:id="@+id/statusName"
         android:layout_width="300dp"
         android:layout_height="70dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="Do something"
         android:inputType="textLongMessage"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.549"
+        app:layout_constraintHorizontal_bias="0.567"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -77,7 +77,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.122"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName5"
+        app:layout_constraintTop_toBottomOf="@+id/statusName"
         app:layout_constraintVertical_bias="0.442" />
 
     <TextView
@@ -88,7 +88,32 @@
         android:text="Total tasks: 0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.255"
+        app:layout_constraintHorizontal_bias="0.253"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="84dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="164dp"
+        android:text="Body"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.192"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <EditText
+        android:id="@+id/bodyName"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:ems="10"
+        android:hint="Body"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.549"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        app:layout_constraintVertical_bias="0.473" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
