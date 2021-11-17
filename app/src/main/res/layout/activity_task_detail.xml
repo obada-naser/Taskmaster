@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TaskDetail">
+    tools:context=".Activities.TaskDetail">
 
     <TextView
         android:id="@+id/taskDetailName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="256dp"
+        android:layout_marginBottom="4dp"
         android:text="Task Detail Name Appear"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,24 +23,46 @@
         android:id="@+id/textView7"
         android:layout_width="128dp"
         android:layout_height="55dp"
-        android:layout_marginTop="108dp"
+        android:layout_marginTop="56dp"
         android:text="Task Detail"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.282"
+        app:layout_constraintHorizontal_bias="0.265"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView8"
-        android:layout_width="349dp"
-        android:layout_height="137dp"
-        android:layout_marginTop="120dp"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus eros in eleifend mollis. Quisque commodo nibh et tellus pulvinar volutpat. Sed quis ipsum lacus. Suspendisse eu maximus ligula. Nunc diam turpis, scelerisque a auctor vitae, lobortis vitae est. In hac habitasse platea dictumst. Ut id aliquet nisi. Quisque in sagittis quam. Mauris eros libero, aliquet eu ultrices et, commodo at velit."
-        android:textSize="12sp"
+        android:id="@+id/titleDetail"
+        android:layout_width="112dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="68dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.26"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <TextView
+        android:id="@+id/statusDetail"
+        android:layout_width="77dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="40dp"
+        android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/taskDetailName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.54" />
+        app:layout_constraintVertical_bias="0.36" />
+
+    <TextView
+        android:id="@+id/bodyDetail"
+        android:layout_width="125dp"
+        android:layout_height="44dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/taskDetailName"
+        app:layout_constraintEnd_toStartOf="@+id/statusDetail"
+        app:layout_constraintHorizontal_bias="0.462"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleDetail"
+        app:layout_constraintVertical_bias="0.086" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
