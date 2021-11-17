@@ -4,8 +4,10 @@
 
 Today worked on the android and established pages of :
 
+
 1. Homepage that takes the user either to add task or to render all tasks and rendering some of the tasks as a list or to the settings.
 2. page to add tasks with title,body and status.
+
 3. page to show all tasks.
 4. page that shows more details on the chosen task and the name of the pressed button.
 5. page with adding name and save button with the name of the button.
