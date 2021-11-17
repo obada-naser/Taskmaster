@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:onClick="userName"
-    tools:context=".Settings">
+    tools:context=".Activities.Settings">
 
     <TextView
         android:id="@+id/textView6"
