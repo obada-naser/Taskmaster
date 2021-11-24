@@ -1,7 +1,6 @@
 package com.example.taskmaster.Adaptor;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.datastore.generated.model.TaskModel;
 import com.example.taskmaster.Activities.TaskDetail;
-import com.example.taskmaster.Models.TaskModel;
+import com.example.taskmaster.Models.TaskModel1;
 import com.example.taskmaster.R;
 
 
@@ -57,18 +57,18 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         TextView status=holder.itemView.findViewById(R.id.status);
 
 
-        title.setText(holder.Task.title);
-        body.setText(holder.Task.body);
-        status.setText(holder.Task.status);
+        title.setText(holder.Task.getTitle());
+        body.setText(holder.Task.getBody());
+        status.setText(holder.Task.getStatus());
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(view.getContext(), TaskDetail.class);
-                intent.putExtra("title",holder.Task.title);
-                intent.putExtra("body",holder.Task.body);
-                intent.putExtra("status",holder.Task.status);
+                intent.putExtra("title",holder.Task.getTitle());
+                intent.putExtra("body",holder.Task.getBody());
+                intent.putExtra("status",holder.Task.getStatus());
                 view.getContext().startActivity(intent);
             }
         });

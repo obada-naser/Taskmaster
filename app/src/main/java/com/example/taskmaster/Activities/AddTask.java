@@ -3,19 +3,20 @@ package com.example.taskmaster.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
+//import androidx.room.Room;
 
-import com.example.taskmaster.AppDatabase;
-import com.example.taskmaster.Models.TaskModel;
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.TaskModel;
+import com.example.taskmaster.Models.TaskModel1;
 import com.example.taskmaster.R;
-import com.example.taskmaster.TaskDao;
 
 public class AddTask extends AppCompatActivity {
 
@@ -50,14 +51,19 @@ public class AddTask extends AppCompatActivity {
 
 
                     Intent intent = new Intent(AddTask.this, MainActivity.class);
-                    AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                            AppDatabase.class, "database-name").allowMainThreadQueries().build();
-                    TaskDao taskDao = db.taskDao();
 
 
-                    TaskModel taskModel = new TaskModel(getTitle, getBody, getStatus);
+//                    TaskModel1 taskModel = new TaskModel1(getTitle, getBody, getStatus);
+
                 try {
-                    taskDao.insertAll(taskModel);
+                    TaskModel taskModel=TaskModel.builder().title("this is the title").body("body msg").status("status msg").build();
+
+                    Amplify.API.mutate(
+                            ModelMutation.create(taskModel),
+                            response -> Log.i("MyAmplifyApp", "Added Todo with id: " + response.getData().getId()),
+                            error -> Log.e("MyAmplifyApp", "Create failed", error)
+                    );
+
                 }
                 catch(NullPointerException nullPointerException){
                     System.out.println("this is an error");
