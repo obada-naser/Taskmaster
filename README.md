@@ -5,7 +5,7 @@
 Today worked on the android and established pages of :
 
 1. Homepage that takes the user either to add task or to render all tasks and rendering some of the tasks as a list or to the settings.
-2. page to add tasks with title,body and status.
+2. page to add tasks with title,body and status using the DynamoDB.
 3. page to show all tasks.
 4. page that shows more details on the chosen task and the name of the pressed button.
 5. page with adding name and save button with the name of the button.
@@ -15,12 +15,7 @@ Today worked on the android and established pages of :
 
 **[My Task](/app/src/main/java/com/example/taskmaster/Activities/MainActivity.java)**
 
-![myTask](/screenshots/MyTaskNew.jpg)
-
-
-![myTask2](/screenshots/MyTaskNew-1.jpg)
-
-![myTask3](/screenshots/MyTasNew-2.jpg)
+![myTask3](/screenshots/MyTaskdb.jpg)
 
 
 **[All Tasks](/app/src/main/java/com/example/taskmaster/Activities/AllTasks.java)**
@@ -30,7 +25,7 @@ Today worked on the android and established pages of :
 
 **[Add Tasks](/app/src/main/java/com/example/taskmaster/Activities/AddTask.java)**
 
-![addTasks](/screenshots/AddTaskNew.jpg)
+![addTasks](/screenshots/AddTaskdb.jpg)
 
 
 **[Settings](/app/src/main/java/com/example/taskmaster/Activities/Settings.java)**
