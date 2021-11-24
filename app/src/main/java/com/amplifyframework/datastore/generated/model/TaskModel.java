@@ -60,6 +60,8 @@ public final class TaskModel implements Model {
     this.body = body;
     this.status = status;
   }
+
+
   
   @Override
    public boolean equals(Object obj) {

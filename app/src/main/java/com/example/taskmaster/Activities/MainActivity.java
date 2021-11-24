@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
 
-        List<TaskModel> taskModelsArray=new ArrayList<>();
+        List<TaskModel1> taskModelsArray=new ArrayList<>();
         RecyclerView recyclerView=findViewById(R.id.TaskDetailView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new TaskAdapter(taskModelsArray));
@@ -85,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
 
                 response -> {
                     for (TaskModel taskModels:response.getData()){
-                        TaskModel taskModel1=new TaskModel(taskModels.getTitle(), taskModels.getBody(), taskModels.getStatus());
-                        Log.i("here is the title", taskModels.getTitle());
+                        TaskModel1 taskModel1=new TaskModel1(taskModels.getTitle(), taskModels.getBody(), taskModels.getStatus());
+                        Log.i("hereisthetitle", taskModels.getTitle());
 
                         taskModelsArray.add(taskModel1);
                     }
