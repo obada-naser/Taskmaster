@@ -20,7 +20,7 @@
         android:id="@+id/textView3"
         android:layout_width="103dp"
         android:layout_height="48dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="4dp"
         android:text="Add Task"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,19 +72,18 @@
         android:id="@+id/addTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:text="ADD Task"
         app:layout_constraintBottom_toTopOf="@+id/submitted"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.122"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statusName"
-        app:layout_constraintVertical_bias="0.442" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/submitted"
         android:layout_width="115dp"
         android:layout_height="39dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="28dp"
         android:text="Total tasks: 0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -115,5 +114,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8"
         app:layout_constraintVertical_bias="0.473" />
+
+    <RadioGroup
+        android:id="@+id/Teams1"
+        android:layout_width="408dp"
+        android:layout_height="83dp"
+        app:layout_constraintBottom_toTopOf="@+id/addTask"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.655"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusName">
+
+        <RadioButton
+            android:id="@+id/teamOne"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:text="Team 1" />
+
+        <RadioButton
+            android:id="@+id/teamTwo"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="Team 2" />
+
+        <RadioButton
+            android:id="@+id/teamThree"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Team 3" />
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

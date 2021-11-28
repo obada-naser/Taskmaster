@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
                 response -> {
                     for (TaskModel taskModels:response.getData()){
+
                         TaskModel1 taskModel1=new TaskModel1(taskModels.getTitle(), taskModels.getBody(), taskModels.getStatus());
                         Log.i("hereisthetitle", taskModels.getTitle());
 
@@ -145,8 +146,14 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
         TextView myTask=findViewById(R.id.Tasks);
+        TextView teamTasks=findViewById(R.id.teamTasks);
         String userTask= sharedPreferences.getString("userName","hello user");
+        String TeamTasks= sharedPreferences.getString("teamName","hello Team");
+
         myTask.setText(userTask+" Tasks");
+        teamTasks.setText(TeamTasks+" Tasks");
+
+
     }
 
 }

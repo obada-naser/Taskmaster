@@ -19,19 +19,26 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 /** This is an auto generated class representing the TaskModel type in your schema. */
 @SuppressWarnings("all")
 @ModelConfig(pluralName = "TaskModels")
+@Index(name = "byTeam", fields = {"teamID","title","body","status"})
 public final class TaskModel implements Model {
   public static final QueryField ID = field("TaskModel", "id");
+  public static final QueryField TEAM_ID = field("TaskModel", "teamID");
   public static final QueryField TITLE = field("TaskModel", "title");
   public static final QueryField BODY = field("TaskModel", "body");
   public static final QueryField STATUS = field("TaskModel", "status");
   private final @ModelField(targetType="ID", isRequired = true) String id;
-  private final @ModelField(targetType="String") String title;
-  private final @ModelField(targetType="String") String body;
-  private final @ModelField(targetType="String") String status;
+  private final @ModelField(targetType="ID", isRequired = true) String teamID;
+  private final @ModelField(targetType="String", isRequired = true) String title;
+  private final @ModelField(targetType="String", isRequired = true) String body;
+  private final @ModelField(targetType="String", isRequired = true) String status;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
+  }
+  
+  public String getTeamId() {
+      return teamID;
   }
   
   public String getTitle() {
@@ -54,14 +61,13 @@ public final class TaskModel implements Model {
       return updatedAt;
   }
   
-  private TaskModel(String id, String title, String body, String status) {
+  private TaskModel(String id, String teamID, String title, String body, String status) {
     this.id = id;
+    this.teamID = teamID;
     this.title = title;
     this.body = body;
     this.status = status;
   }
-
-
   
   @Override
    public boolean equals(Object obj) {
@@ -72,6 +78,7 @@ public final class TaskModel implements Model {
       } else {
       TaskModel taskModel = (TaskModel) obj;
       return ObjectsCompat.equals(getId(), taskModel.getId()) &&
+              ObjectsCompat.equals(getTeamId(), taskModel.getTeamId()) &&
               ObjectsCompat.equals(getTitle(), taskModel.getTitle()) &&
               ObjectsCompat.equals(getBody(), taskModel.getBody()) &&
               ObjectsCompat.equals(getStatus(), taskModel.getStatus()) &&
@@ -84,6 +91,7 @@ public final class TaskModel implements Model {
    public int hashCode() {
     return new StringBuilder()
       .append(getId())
+      .append(getTeamId())
       .append(getTitle())
       .append(getBody())
       .append(getStatus())
@@ -98,6 +106,7 @@ public final class TaskModel implements Model {
     return new StringBuilder()
       .append("TaskModel {")
       .append("id=" + String.valueOf(getId()) + ", ")
+      .append("teamID=" + String.valueOf(getTeamId()) + ", ")
       .append("title=" + String.valueOf(getTitle()) + ", ")
       .append("body=" + String.valueOf(getBody()) + ", ")
       .append("status=" + String.valueOf(getStatus()) + ", ")
@@ -107,7 +116,7 @@ public final class TaskModel implements Model {
       .toString();
   }
   
-  public static BuildStep builder() {
+  public static TeamIdStep builder() {
       return new Builder();
   }
   
@@ -124,27 +133,47 @@ public final class TaskModel implements Model {
       id,
       null,
       null,
+      null,
       null
     );
   }
   
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
+      teamID,
       title,
       body,
       status);
   }
-  public interface BuildStep {
-    TaskModel build();
-    BuildStep id(String id);
-    BuildStep title(String title);
-    BuildStep body(String body);
+  public interface TeamIdStep {
+    TitleStep teamId(String teamId);
+  }
+  
+
+  public interface TitleStep {
+    BodyStep title(String title);
+  }
+  
+
+  public interface BodyStep {
+    StatusStep body(String body);
+  }
+  
+
+  public interface StatusStep {
     BuildStep status(String status);
   }
   
 
-  public static class Builder implements BuildStep {
+  public interface BuildStep {
+    TaskModel build();
+    BuildStep id(String id);
+  }
+  
+
+  public static class Builder implements TeamIdStep, TitleStep, BodyStep, StatusStep, BuildStep {
     private String id;
+    private String teamID;
     private String title;
     private String body;
     private String status;
@@ -154,25 +183,36 @@ public final class TaskModel implements Model {
         
         return new TaskModel(
           id,
+          teamID,
           title,
           body,
           status);
     }
     
     @Override
-     public BuildStep title(String title) {
+     public TitleStep teamId(String teamId) {
+        Objects.requireNonNull(teamId);
+        this.teamID = teamId;
+        return this;
+    }
+    
+    @Override
+     public BodyStep title(String title) {
+        Objects.requireNonNull(title);
         this.title = title;
         return this;
     }
     
     @Override
-     public BuildStep body(String body) {
+     public StatusStep body(String body) {
+        Objects.requireNonNull(body);
         this.body = body;
         return this;
     }
     
     @Override
      public BuildStep status(String status) {
+        Objects.requireNonNull(status);
         this.status = status;
         return this;
     }
@@ -189,11 +229,17 @@ public final class TaskModel implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String title, String body, String status) {
+    private CopyOfBuilder(String id, String teamId, String title, String body, String status) {
       super.id(id);
-      super.title(title)
+      super.teamId(teamId)
+        .title(title)
         .body(body)
         .status(status);
+    }
+    
+    @Override
+     public CopyOfBuilder teamId(String teamId) {
+      return (CopyOfBuilder) super.teamId(teamId);
     }
     
     @Override
