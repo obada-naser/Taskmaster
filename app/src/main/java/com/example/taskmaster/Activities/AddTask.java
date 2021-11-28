@@ -2,11 +2,15 @@ package com.example.taskmaster.Activities;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,15 +41,24 @@ public class AddTask extends AppCompatActivity {
         EditText statusName=findViewById(R.id.statusName);
 
 
+
+
+
         Button showSubmission=findViewById(R.id.addTask);
         showSubmission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
 
+                SharedPreferences sharedPreferences = getSharedPreferences("My Pref" , MODE_PRIVATE);
+
+
+
+
                 String getTitle=titleName.getText().toString();
                 String getBody=bodyName.getText().toString();
                 String getStatus=statusName.getText().toString();
+                String teamName=getTeamName();
 
 
 
@@ -56,7 +69,7 @@ public class AddTask extends AppCompatActivity {
 //                    TaskModel1 taskModel = new TaskModel1(getTitle, getBody, getStatus);
 
                 try {
-                    TaskModel taskModel=TaskModel.builder().title(getTitle).body(getBody).status(getStatus).build();
+                    TaskModel taskModel=TaskModel.builder().teamId(teamName).title(getTitle).body(getBody).status(getStatus).build();
 
                     Amplify.API.mutate(
                             ModelMutation.create(taskModel),
@@ -79,5 +92,28 @@ public class AddTask extends AppCompatActivity {
 
             }
         });
+    }
+    private String getTeamName(){
+        RadioGroup teams=findViewById(R.id.Teams1);
+
+        RadioButton teamOne=findViewById(R.id.teamOne);
+        RadioButton teamTwo=findViewById(R.id.teamTwo);
+        RadioButton teamThree=findViewById(R.id.teamThree);
+
+        String teamName="";
+
+        if(teamOne.isChecked()){
+            teamName=teamOne.getText().toString();
+        }
+        else if (teamTwo.isChecked()){
+            teamName=teamTwo.getText().toString();
+        }
+        else if (teamThree.isChecked()){
+            teamName=teamThree.getText().toString();
+        }
+        else{
+            teamName=null;
+        }
+    return teamName;
     }
 }
