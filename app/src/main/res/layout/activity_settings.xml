@@ -70,21 +70,18 @@
             android:id="@+id/teamOne1"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:onClick="choosingTeam"
             android:text="Team 1" />
 
         <RadioButton
             android:id="@+id/teamTwo2"
             android:layout_width="match_parent"
             android:layout_height="33dp"
-            android:onClick="choosingTeam"
             android:text="Team 2" />
 
         <RadioButton
             android:id="@+id/teamThree3"
             android:layout_width="match_parent"
             android:layout_height="29dp"
-            android:onClick="choosingTeam"
             android:text="Team 3" />
     </RadioGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>

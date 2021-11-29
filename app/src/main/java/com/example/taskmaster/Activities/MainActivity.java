@@ -22,8 +22,12 @@ import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.AuthUserAttributeKey;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskModel;
+import com.amplifyframework.datastore.generated.model.Team;
 import com.example.taskmaster.Adaptor.TaskAdapter;
 import com.example.taskmaster.Models.TaskModel1;
 import com.example.taskmaster.R;
@@ -40,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+
+
 //
 
 //
@@ -53,9 +59,16 @@ public class MainActivity extends AppCompatActivity {
 //        TaskDao taskDao = db.taskDao();
 //        List<TaskModel>  taskModels = taskDao.getAll();
 
+
+
+        SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(this);
+        String teamId=sharedPreferences.getString("teamId","");
+
+
         try {
             // Add these lines to add the AWSApiPlugin plugins
             Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.configure(getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
@@ -63,10 +76,50 @@ public class MainActivity extends AppCompatActivity {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
 
+
+        Amplify.Auth.fetchAuthSession(
+                result -> Log.i("AmplifyQuickstart", result.toString()),
+                error -> Log.e("AmplifyQuickstart", error.toString())
+        );
+
+        Amplify.Auth.signInWithWebUI(
+                this,
+                result -> Log.i("AuthQuickStart", result.toString()),
+                error -> Log.e("AuthQuickStart", error.toString())
+        );
+
+
+
+
+
+
+
+
+
+
+//        AuthSignUpOptions options = AuthSignUpOptions.builder()
+//                .userAttribute(AuthUserAttributeKey.email(), "my@email.com")
+//                .build();
+//        Amplify.Auth.signUp("username", "Password123", options,
+//                result -> Log.i("AuthQuickStart", "Result: " + result.toString()),
+//                error -> Log.e("AuthQuickStart", "Sign up failed", error)
+//        );
+
+
+
+
+
+
+
+
+
+
+
         List<TaskModel1> taskModelsArray=new ArrayList<>();
-        RecyclerView recyclerView=findViewById(R.id.TaskDetailView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new TaskAdapter(taskModelsArray));
+
+
+    if(!teamId.equals("")) {
+        RecyclerView recyclerView = findViewById(R.id.TaskDetailView);
 
 
         Handler handler = new Handler(Looper.myLooper(), new Handler.Callback() {
@@ -78,15 +131,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
         Amplify.API.query(
-                ModelQuery.list(TaskModel.class),
+                ModelQuery.get(Team.class, teamId),
 
                 response -> {
-                    for (TaskModel taskModels:response.getData()){
+                    for (TaskModel taskModels : response.getData().getTaskModels()) {
 
-                        TaskModel1 taskModel1=new TaskModel1(taskModels.getTitle(), taskModels.getBody(), taskModels.getStatus());
+                        TaskModel1 taskModel1 = new TaskModel1(taskModels.getTitle(), taskModels.getBody(), taskModels.getStatus());
                         Log.i("hereisthetitle", taskModels.getTitle());
 
                         taskModelsArray.add(taskModel1);
@@ -95,6 +146,16 @@ public class MainActivity extends AppCompatActivity {
                 },
                 error -> Log.e("MyAmplifyApp", error.toString(), error)
         );
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(new TaskAdapter(taskModelsArray));
+    }
+
+
+
+
+
+
 
 
 
@@ -149,6 +210,8 @@ public class MainActivity extends AppCompatActivity {
         TextView teamTasks=findViewById(R.id.teamTasks);
         String userTask= sharedPreferences.getString("userName","hello user");
         String TeamTasks= sharedPreferences.getString("teamName","hello Team");
+
+//        TextView teamName=findViewById(R.id.teamTasks);
 
         myTask.setText(userTask+" Tasks");
         teamTasks.setText(TeamTasks+" Tasks");
