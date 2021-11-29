@@ -16,11 +16,18 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 //import androidx.room.Room;
 
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskModel;
+import com.amplifyframework.datastore.generated.model.Team;
 import com.example.taskmaster.Models.TaskModel1;
 import com.example.taskmaster.R;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddTask extends AppCompatActivity {
 
@@ -31,6 +38,16 @@ public class AddTask extends AppCompatActivity {
 
 //        TextView showSubmission=findViewById(R.id.submitted);
 //        showSubmission.setText("Submission");
+
+
+        try {
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.configure(getApplicationContext());
+            Log.i("TaskMaster1", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("TaskMaster1", "Could not initialize Amplify", error);
+        }
+
 
 
 
@@ -45,43 +62,71 @@ public class AddTask extends AppCompatActivity {
 
 
         Button showSubmission=findViewById(R.id.addTask);
+
+
+        Map<String, String> teamList = new HashMap<>();
+        Amplify.API.query(
+                ModelQuery.list(Team.class),
+                response -> {
+
+                    Log.i("response", response.toString());
+                    for (Team Teams : response.getData()) {
+                        teamList.put(Teams.getTeamTitle(), Teams.getId());
+
+                    }
+                },error -> Log.e("TaskMaster3", error.toString(), error)
+
+        );
+
+
         showSubmission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-
-                SharedPreferences sharedPreferences = getSharedPreferences("My Pref" , MODE_PRIVATE);
-
-
-
-
-                String getTitle=titleName.getText().toString();
-                String getBody=bodyName.getText().toString();
-                String getStatus=statusName.getText().toString();
-                String teamName=getTeamName();
+                Intent intent = new Intent(AddTask.this, MainActivity.class);
 
 
 
 
-                    Intent intent = new Intent(AddTask.this, MainActivity.class);
+
+
+                RadioGroup radioGroup=findViewById(R.id.Teams1);
+                int button=radioGroup.getCheckedRadioButtonId();
+                RadioButton choosen=findViewById(button);
+                String choosenTeam=choosen.getText().toString();
+//                String teamName=getTeamName();
+
+
+
+
+        Amplify.API.query(
+                ModelQuery.get(Team.class,teamList.get(choosenTeam)),
+                response1 -> {
+
+                    String getTitle=titleName.getText().toString();
+                    String getBody=bodyName.getText().toString();
+                    String getStatus=statusName.getText().toString();
+
 
 
 //                    TaskModel1 taskModel = new TaskModel1(getTitle, getBody, getStatus);
 
-                try {
-                    TaskModel taskModel=TaskModel.builder().teamId(teamName).title(getTitle).body(getBody).status(getStatus).build();
+                    try {
+                        TaskModel taskModel = TaskModel.builder().teamId(response1.getData().getId()).title(getTitle).body(getBody).status(getStatus).build();
 
-                    Amplify.API.mutate(
-                            ModelMutation.create(taskModel),
-                            response -> Log.i("MyAmplifyApp", "Added Task with id: " + response.getData().getId()),
-                            error -> Log.e("MyAmplifyApp", "Create failed", error)
-                    );
+                        Amplify.API.mutate(
+                                ModelMutation.create(taskModel),
+                                response -> Log.i("MyAmplifyApp1", "Added Task with id: " + response.getData().getId()),
+                                error -> Log.e("MyAmplifyApp1", "Create failed", error)
+                        );
 
-                }
-                catch(NullPointerException nullPointerException){
-                    System.out.println("this is an error");
+                    } catch (NullPointerException nullPointerException) {
+                        System.out.println("this is an error");
 
-                }
+                    }
+                }, error -> Log.e("TaskMaster6", error.toString(), error)
+
+                );
                     Toast.makeText(getApplicationContext(), "submitted!", Toast.LENGTH_LONG).show();
 
                     startActivity(intent);
@@ -93,27 +138,27 @@ public class AddTask extends AppCompatActivity {
             }
         });
     }
-    private String getTeamName(){
-        RadioGroup teams=findViewById(R.id.Teams1);
-
-        RadioButton teamOne=findViewById(R.id.teamOne);
-        RadioButton teamTwo=findViewById(R.id.teamTwo);
-        RadioButton teamThree=findViewById(R.id.teamThree);
-
-        String teamName="";
-
-        if(teamOne.isChecked()){
-            teamName=teamOne.getText().toString();
-        }
-        else if (teamTwo.isChecked()){
-            teamName=teamTwo.getText().toString();
-        }
-        else if (teamThree.isChecked()){
-            teamName=teamThree.getText().toString();
-        }
-        else{
-            teamName=null;
-        }
-    return teamName;
-    }
+//    private String getTeamName(){
+//        RadioGroup teams=findViewById(R.id.Teams1);
+//
+//        RadioButton teamOne=findViewById(R.id.teamOne);
+//        RadioButton teamTwo=findViewById(R.id.teamTwo);
+//        RadioButton teamThree=findViewById(R.id.teamThree);
+//
+//        String teamName="";
+//
+//        if(teamOne.isChecked()){
+//            teamName=teamOne.getText().toString();
+//        }
+//        else if (teamTwo.isChecked()){
+//            teamName=teamTwo.getText().toString();
+//        }
+//        else if (teamThree.isChecked()){
+//            teamName=teamThree.getText().toString();
+//        }
+//        else{
+//            teamName=null;
+//        }
+//    return teamName;
+//    }
 }
