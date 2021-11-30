@@ -15,7 +15,7 @@ Today worked on the android and established pages of :
 
 **[My Task](/app/src/main/java/com/example/taskmaster/Activities/MainActivity.java)**
 
-![myTask3](/screenshots/MyTaskdb.jpg)
+![myTask3](/screenshots/TeamTasks.jpg)
 
 
 **[All Tasks](/app/src/main/java/com/example/taskmaster/Activities/AllTasks.java)**
@@ -25,12 +25,12 @@ Today worked on the android and established pages of :
 
 **[Add Tasks](/app/src/main/java/com/example/taskmaster/Activities/AddTask.java)**
 
-![addTasks](/screenshots/AddTaskdb.jpg)
+![addTasks](/screenshots/AddTask33.jpg)
 
 
 **[Settings](/app/src/main/java/com/example/taskmaster/Activities/Settings.java)**
 
-![Settings](/screenshots/Settings.jpg)
+![Settings](/screenshots/settings.jpg)
 
 
 **[Task Details](/app/src/main/java/com/example/taskmaster/Activities/TaskDetail.java)**
