@@ -3,13 +3,11 @@ package com.example.taskmaster.Activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -18,14 +16,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 //import androidx.room.Room;
 
-import com.amplifyframework.AmplifyException;
-import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskModel;
 import com.amplifyframework.datastore.generated.model.Team;
-import com.example.taskmaster.Models.TaskModel1;
 import com.example.taskmaster.R;
 
 import java.util.HashMap;
@@ -147,11 +142,11 @@ public class AddTask extends AppCompatActivity {
         });
     }
     private String getTeamName(){
-        RadioGroup teams=findViewById(R.id.Teams1);
+//        RadioGroup teams=findViewById(R.id.Teams1);
 
-        RadioButton teamOne=findViewById(R.id.teamOne);
-        RadioButton teamTwo=findViewById(R.id.teamTwo);
-        RadioButton teamThree=findViewById(R.id.teamThree);
+        RadioButton teamOne=findViewById(R.id.Team1);
+        RadioButton teamTwo=findViewById(R.id.Team2);
+        RadioButton teamThree=findViewById(R.id.Team3);
 
         String teamName="";
 
@@ -169,15 +164,15 @@ public class AddTask extends AppCompatActivity {
         }
     return teamName;
     }
-    @SuppressLint("IntentReset")
-    public void pickFile(){
-        @SuppressLint("IntentReset") Intent selectedFile=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        selectedFile.setType(("*/"));
-            selectedFile=Intent.createChooser(selectedFile,"Select File");
-        startActivityForResult(selectedFile,1234);
-
-
-    }
+//    @SuppressLint("IntentReset")
+//    public void pickFile(){
+//        @SuppressLint("IntentReset") Intent selectedFile=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//        selectedFile.setType(("*/"));
+//            selectedFile=Intent.createChooser(selectedFile,"Select File");
+//        startActivityForResult(selectedFile,1234);
+//
+//
+//    }
 
 
 }

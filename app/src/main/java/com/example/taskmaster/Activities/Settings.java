@@ -4,28 +4,24 @@ package com.example.taskmaster.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.amplifyframework.AmplifyException;
-import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
-import com.amplifyframework.datastore.generated.model.TaskModel;
 import com.amplifyframework.datastore.generated.model.Team;
 import com.example.taskmaster.R;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,47 +38,31 @@ public class Settings extends AppCompatActivity {
         settingNameLabel.setText(settingName);
 
 
-    }
-
-    public void userName(View view) {
-        Intent intent = new Intent(Settings.this, MainActivity.class);
-//        try {
-//            Amplify.addPlugin(new AWSApiPlugin());
-//            Log.i("MasterTask", "Initialized Amplify");
-//        } catch (AmplifyException error) {
-//            Log.e("MasterTask", "Could not initialize Amplify", error);
-//        }
-
-        HashMap<String,String> listTeam = new HashMap<>();
-//        ArrayList<String> listTeam2 = new ArrayList<>();
-//        ArrayList<String> listTeam3 = new ArrayList<>();
-
+        //***************************
+        //get the team list from dynamo database
+        Map< String,String> listTeam = new HashMap<>();
         Amplify.API.query(
-                ModelQuery.list(Team.class),
+                ModelQuery.list(com.amplifyframework.datastore.generated.model.Team.class),
                 response -> {
-
-                    System.out.println("**********************************");
-//                    System.out.println(response);
-
                     for (Team team : response.getData()) {
 
-
-
-
                         listTeam.put(team.getTeamTitle(),team.getId());
-//                        System.out.println( listTeam.put(team.getTeamTitle(),team.getId()));
-//                        System.out.println(team.getTeamTitle());
-
-
 
                     }
-                    Log.i("hello", "userName: ");
-//                    Log.i("new team",response.toString());
                 },
                 error -> Log.e("MasterTask", error.toString(), error)
         );
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        //**************************
+
+
+
+        Button saveUserNameButton = findViewById(R.id.saveButton);
+        saveUserNameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Settings.this);
         SharedPreferences.Editor edit = sharedPreferences.edit();
         EditText usersName = findViewById(R.id.usersName);
 
@@ -98,9 +78,9 @@ public class Settings extends AppCompatActivity {
 //        RadioButton chosenButon=findViewById(numId);
 
 
-        RadioButton radioButton = findViewById(R.id.teamOne1);
-        RadioButton radioButton1 = findViewById(R.id.teamTwo2);
-        RadioButton radioButton2 = findViewById(R.id.teamThree3);
+        RadioButton radioButton = findViewById(R.id.Team1);
+        RadioButton radioButton1 = findViewById(R.id.Team2);
+        RadioButton radioButton2 = findViewById(R.id.Team3);
 
 
         String teamName1 = radioButton.getText().toString();
@@ -147,11 +127,11 @@ public class Settings extends AppCompatActivity {
 //        String teamName=chosenButton.getText().toString();
 //        listTeam.get(newName)
 
-        edit.putString("teamId","0155bbf3-4145-43dd-8324-6da837b465d7");
+        edit.putString("teamId",id);
 //        System.out.println("****************************************obada");
 //        System.out.println(id);
 
-        edit.putString("teamName",teamName1);
+        edit.putString("teamName",newName);
 
 
         edit.putString("userName", userName);
@@ -173,10 +153,24 @@ public class Settings extends AppCompatActivity {
 //
 //
 //        String userName=usersName.getText().toString();
+        Intent goHomePage = new Intent(Settings.this, MainActivity.class);
+        startActivity(goHomePage);
 
 
-        startActivity(intent);
 
+
+
+
+
+
+
+            }
+        });
 
     }
+
+
+
 }
+
+

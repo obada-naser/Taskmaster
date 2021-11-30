@@ -30,7 +30,7 @@ Today worked on the android and established pages of :
 
 **[Settings](/app/src/main/java/com/example/taskmaster/Activities/Settings.java)**
 
-![Settings](/screenshots/settings.jpg)
+![settings](/screenshots/settings.jpg)
 
 
 **[Task Details](/app/src/main/java/com/example/taskmaster/Activities/TaskDetail.java)**

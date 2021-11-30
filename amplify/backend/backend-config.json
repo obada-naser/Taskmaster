@@ -18,7 +18,7 @@
     }
   },
   "auth": {
-    "taskmaster7bdd0dfa": {
+    "taskmaster879babd4": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],

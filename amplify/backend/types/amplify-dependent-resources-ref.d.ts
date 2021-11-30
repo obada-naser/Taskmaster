@@ -6,11 +6,9 @@ export type AmplifyDependentResourcesAttributes = {
         }
     },
     "auth": {
-        "taskmaster7bdd0dfa": {
+        "taskmaster879babd4": {
             "IdentityPoolId": "string",
             "IdentityPoolName": "string",
-            "HostedUIDomain": "string",
-            "OAuthMetadata": "string",
             "UserPoolId": "string",
             "UserPoolArn": "string",
             "UserPoolName": "string",
