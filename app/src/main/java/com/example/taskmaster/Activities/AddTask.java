@@ -1,9 +1,11 @@
 package com.example.taskmaster.Activities;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -39,16 +41,17 @@ public class AddTask extends AppCompatActivity {
 //        TextView showSubmission=findViewById(R.id.submitted);
 //        showSubmission.setText("Submission");
 
-
-        try {
-            Amplify.addPlugin(new AWSApiPlugin());
-            Amplify.configure(getApplicationContext());
-            Log.i("TaskMaster1", "Initialized Amplify");
-        } catch (AmplifyException error) {
-            Log.e("TaskMaster1", "Could not initialize Amplify", error);
-        }
-
-
+//
+//        try {
+//            Amplify.addPlugin(new AWSApiPlugin());
+//            Amplify.configure(getApplicationContext());
+//            Log.i("TaskMaster1", "Initialized Amplify");
+//        } catch (AmplifyException error) {
+//            Log.e("TaskMaster1", "Could not initialize Amplify", error);
+//        }
+//
+//
+//
 
 
 
@@ -64,14 +67,14 @@ public class AddTask extends AppCompatActivity {
         Button showSubmission=findViewById(R.id.addTask);
 
 
-        Map<String, String> teamList = new HashMap<>();
+        Map<String, String> team = new HashMap<>();
         Amplify.API.query(
                 ModelQuery.list(Team.class),
                 response -> {
 
                     Log.i("response", response.toString());
                     for (Team Teams : response.getData()) {
-                        teamList.put(Teams.getTeamTitle(), Teams.getId());
+                        team.put(Teams.getTeamTitle(), Teams.getId());
 
                     }
                 },error -> Log.e("TaskMaster3", error.toString(), error)
@@ -90,17 +93,22 @@ public class AddTask extends AppCompatActivity {
 
 
 
-                RadioGroup radioGroup=findViewById(R.id.Teams1);
-                int button=radioGroup.getCheckedRadioButtonId();
-                RadioButton choosen=findViewById(button);
-                String choosenTeam=choosen.getText().toString();
-//                String teamName=getTeamName();
+
+
+
+
+
+//                RadioGroup radioGroup=findViewById(R.id.Teams1);
+//                int button=radioGroup.getCheckedRadioButtonId();
+//                RadioButton choosen=findViewById(button);
+//                String choosenTeam=choosen.getText().toString();
+                String teamName=getTeamName();
 
 
 
 
         Amplify.API.query(
-                ModelQuery.get(Team.class,teamList.get(choosenTeam)),
+                ModelQuery.get(Team.class,team.get(teamName)),
                 response1 -> {
 
                     String getTitle=titleName.getText().toString();
@@ -138,27 +146,38 @@ public class AddTask extends AppCompatActivity {
             }
         });
     }
-//    private String getTeamName(){
-//        RadioGroup teams=findViewById(R.id.Teams1);
-//
-//        RadioButton teamOne=findViewById(R.id.teamOne);
-//        RadioButton teamTwo=findViewById(R.id.teamTwo);
-//        RadioButton teamThree=findViewById(R.id.teamThree);
-//
-//        String teamName="";
-//
-//        if(teamOne.isChecked()){
-//            teamName=teamOne.getText().toString();
-//        }
-//        else if (teamTwo.isChecked()){
-//            teamName=teamTwo.getText().toString();
-//        }
-//        else if (teamThree.isChecked()){
-//            teamName=teamThree.getText().toString();
-//        }
-//        else{
-//            teamName=null;
-//        }
-//    return teamName;
-//    }
+    private String getTeamName(){
+        RadioGroup teams=findViewById(R.id.Teams1);
+
+        RadioButton teamOne=findViewById(R.id.teamOne);
+        RadioButton teamTwo=findViewById(R.id.teamTwo);
+        RadioButton teamThree=findViewById(R.id.teamThree);
+
+        String teamName="";
+
+        if(teamOne.isChecked()){
+            teamName=teamOne.getText().toString();
+        }
+        else if (teamTwo.isChecked()){
+            teamName=teamTwo.getText().toString();
+        }
+        else if (teamThree.isChecked()){
+            teamName=teamThree.getText().toString();
+        }
+        else{
+            teamName=null;
+        }
+    return teamName;
+    }
+    @SuppressLint("IntentReset")
+    public void pickFile(){
+        @SuppressLint("IntentReset") Intent selectedFile=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        selectedFile.setType(("*/"));
+            selectedFile=Intent.createChooser(selectedFile,"Select File");
+        startActivityForResult(selectedFile,1234);
+
+
+    }
+
+
 }

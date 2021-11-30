@@ -28,10 +28,14 @@ import com.amplifyframework.auth.options.AuthSignUpOptions;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskModel;
 import com.amplifyframework.datastore.generated.model.Team;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 import com.example.taskmaster.Adaptor.TaskAdapter;
 import com.example.taskmaster.Models.TaskModel1;
 import com.example.taskmaster.R;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -61,14 +65,21 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(this);
-        String teamId=sharedPreferences.getString("teamId","");
+        SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        String gettingId=sharedPreferences.getString("teamId","this is the id");
+        System.out.println("***************************************");
+        System.out.println(gettingId);
+
+//        Log.i("id", "onCreate: "+gettingId);
 
 
         try {
             // Add these lines to add the AWSApiPlugin plugins
             Amplify.addPlugin(new AWSApiPlugin());
+
+
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.addPlugin(new AWSS3StoragePlugin());
             Amplify.configure(getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
@@ -76,17 +87,42 @@ public class MainActivity extends AppCompatActivity {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
 
-
+//
         Amplify.Auth.fetchAuthSession(
                 result -> Log.i("AmplifyQuickstart", result.toString()),
                 error -> Log.e("AmplifyQuickstart", error.toString())
         );
-
+//
         Amplify.Auth.signInWithWebUI(
                 this,
                 result -> Log.i("AuthQuickStart", result.toString()),
                 error -> Log.e("AuthQuickStart", error.toString())
         );
+
+
+//        private void uploadFile(){
+//            File exampleFile = new File(getApplicationContext().getFilesDir(), "ExampleKey");
+//
+//            try {
+//                BufferedWriter writer = new BufferedWriter(new FileWriter(exampleFile));
+//                writer.append("Example file contents");
+//                writer.close();
+//            } catch (Exception exception) {
+//                Log.e("MyAmplifyApp", "Upload failed", exception);
+//            }
+//
+//            Amplify.Storage.uploadFile(
+//                    "ExampleKey",
+//                    exampleFile,
+//                    result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+//                    storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+//            );
+//        }
+
+
+
+
+
 
 
 
@@ -118,7 +154,9 @@ public class MainActivity extends AppCompatActivity {
         List<TaskModel1> taskModelsArray=new ArrayList<>();
 
 
-    if(!teamId.equals("")) {
+
+
+    if(!gettingId.equals("this is the id")) {
         RecyclerView recyclerView = findViewById(R.id.TaskDetailView);
 
 
@@ -132,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         Amplify.API.query(
-                ModelQuery.get(Team.class, teamId),
+                ModelQuery.get(Team.class, gettingId),
 
                 response -> {
                     for (TaskModel taskModels : response.getData().getTaskModels()) {

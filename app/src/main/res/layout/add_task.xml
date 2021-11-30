@@ -9,10 +9,10 @@
         android:id="@+id/textView5"
         android:layout_width="126dp"
         android:layout_height="43dp"
-        android:layout_marginTop="321dp"
+        android:layout_marginTop="292dp"
         android:text=" Status"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.214"
+        app:layout_constraintHorizontal_bias="0.224"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -58,13 +58,13 @@
         android:id="@+id/statusName"
         android:layout_width="300dp"
         android:layout_height="70dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Do something"
         android:inputType="textLongMessage"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.567"
+        app:layout_constraintHorizontal_bias="0.549"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -76,14 +76,14 @@
         android:text="ADD Task"
         app:layout_constraintBottom_toTopOf="@+id/submitted"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.122"
+        app:layout_constraintHorizontal_bias="0.095"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/submitted"
         android:layout_width="115dp"
         android:layout_height="39dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="16dp"
         android:text="Total tasks: 0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -117,7 +117,7 @@
 
     <RadioGroup
         android:id="@+id/Teams1"
-        android:layout_width="408dp"
+        android:layout_width="345dp"
         android:layout_height="83dp"
         app:layout_constraintBottom_toTopOf="@+id/addTask"
         app:layout_constraintEnd_toEndOf="parent"
@@ -128,7 +128,7 @@
         <RadioButton
             android:id="@+id/teamOne"
             android:layout_width="match_parent"
-            android:layout_height="28dp"
+            android:layout_height="26dp"
             android:text="Team 1" />
 
         <RadioButton
