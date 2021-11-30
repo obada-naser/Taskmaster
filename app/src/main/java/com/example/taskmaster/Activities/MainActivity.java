@@ -48,6 +48,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        try {
+            // Add these lines to add the AWSApiPlugin plugins
+            Amplify.addPlugin(new AWSApiPlugin());
+
+
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.addPlugin(new AWSS3StoragePlugin());
+            Amplify.configure(getApplicationContext());
+
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
+
+
 
 
 //
@@ -63,31 +78,41 @@ public class MainActivity extends AppCompatActivity {
 //        TaskDao taskDao = db.taskDao();
 //        List<TaskModel>  taskModels = taskDao.getAll();
 
+//        Team teamOne = Team.builder().teamTitle("Team1").build();
+//        Team teamTwo = Team.builder().teamTitle("Team2").build();
+//        Team teamThree = Team.builder().teamTitle("Team3").build();
+//
+//        Amplify.API.mutate(
+//                ModelMutation.create(teamOne),
+//                response -> Log.i("TaskMaster", "Added Todo with id: " + response.getData().getId()),
+//                error -> Log.e("TaskMaster", "Create failed", error)
+//        );
+//        Amplify.API.mutate(
+//                ModelMutation.create(teamTwo),
+//                response -> Log.i("TaskMaster", "Added Todo with id: " + response.getData().getId()),
+//                error -> Log.e("TaskMaster", "Create failed", error)
+//        );
+//        Amplify.API.mutate(
+//                ModelMutation.create(teamThree),
+//                response -> Log.i("TaskMaster", "Added Todo with id: " + response.getData().getId()),
+//                error -> Log.e("TaskMaster", "Create failed", error)
+//        );
+
+
+
 
 
         SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        String gettingId=sharedPreferences.getString("teamId","this is the id");
-        System.out.println("***************************************");
+        String gettingId=sharedPreferences.getString("teamId","");
+        System.out.println("***************************************obada");
         System.out.println(gettingId);
 
 //        Log.i("id", "onCreate: "+gettingId);
 
 
-        try {
-            // Add these lines to add the AWSApiPlugin plugins
-            Amplify.addPlugin(new AWSApiPlugin());
 
 
-            Amplify.addPlugin(new AWSCognitoAuthPlugin());
-            Amplify.addPlugin(new AWSS3StoragePlugin());
-            Amplify.configure(getApplicationContext());
 
-            Log.i("MyAmplifyApp", "Initialized Amplify");
-        } catch (AmplifyException error) {
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
-        }
-
-//
         Amplify.Auth.fetchAuthSession(
                 result -> Log.i("AmplifyQuickstart", result.toString()),
                 error -> Log.e("AmplifyQuickstart", error.toString())
@@ -156,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    if(!gettingId.equals("this is the id")) {
+    if(!gettingId.equals("")) {
         RecyclerView recyclerView = findViewById(R.id.TaskDetailView);
 
 
