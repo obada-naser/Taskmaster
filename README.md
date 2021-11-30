@@ -31,7 +31,7 @@ Today worked on the android and established pages of :
 
 **[Add Tasks](/app/src/main/java/com/example/taskmaster/Activities/AddTask.java)**
 
-![addTasks](/screenshots/AddTask33.jpg)
+![addTasks](/screenshots/addTask33.jpg)
 
 
 **[Settings](/app/src/main/java/com/example/taskmaster/Activities/Settings.java)**
