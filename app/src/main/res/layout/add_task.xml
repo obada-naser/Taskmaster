@@ -72,11 +72,12 @@
         android:id="@+id/addTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="20dp"
         android:text="ADD Task"
         app:layout_constraintBottom_toTopOf="@+id/submitted"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.095"
+        app:layout_constraintEnd_toStartOf="@+id/pickFile"
+        app:layout_constraintHorizontal_bias="0.203"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -143,5 +144,15 @@
             android:layout_height="wrap_content"
             android:text="Team3" />
     </RadioGroup>
+
+    <Button
+        android:id="@+id/pickFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="88dp"
+        android:onClick="pickFile"
+        android:text="pick file"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="608dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

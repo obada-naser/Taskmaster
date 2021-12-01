@@ -164,15 +164,15 @@ public class AddTask extends AppCompatActivity {
         }
     return teamName;
     }
-//    @SuppressLint("IntentReset")
-//    public void pickFile(){
-//        @SuppressLint("IntentReset") Intent selectedFile=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//        selectedFile.setType(("*/"));
-//            selectedFile=Intent.createChooser(selectedFile,"Select File");
-//        startActivityForResult(selectedFile,1234);
-//
-//
-//    }
+    @SuppressLint("IntentReset")
+    public void pickFile(View view){
+        @SuppressLint("IntentReset") Intent selectedFile=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        selectedFile.setType(("*/"));
+            selectedFile=Intent.createChooser(selectedFile,"Select File");
+        startActivityForResult(selectedFile,1234);
+
+
+    }
 
 
 }

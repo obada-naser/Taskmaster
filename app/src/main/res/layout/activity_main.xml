@@ -14,7 +14,7 @@
         app:layout_constraintBottom_toTopOf="@+id/button4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TaskDetails" />
+        app:layout_constraintTop_toBottomOf="@+id/logOut" />
 
     <TextView
         android:id="@+id/Tasks"
@@ -63,13 +63,13 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/TaskDetails"
+        android:id="@+id/logOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="160dp"
+        android:layout_marginEnd="68dp"
         android:layout_marginBottom="460dp"
-        android:onClick="TaskDetail"
-        android:text="Task Details"
+        android:onClick="logoutUser"
+        android:text="Log Out"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -78,11 +78,24 @@
         android:layout_width="165dp"
         android:layout_height="47dp"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/TaskDetails"
+        app:layout_constraintBottom_toTopOf="@+id/logOut"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.347"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.909" />
+
+    <TextView
+        android:id="@+id/loggedUser"
+        android:layout_width="115dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="16dp"
+        android:text="User Name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/logOut"
+        app:layout_constraintHorizontal_bias="0.569"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/teamTasks"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
