@@ -20,11 +20,10 @@ import android.widget.TextView;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
-import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
-import com.amplifyframework.auth.AuthUserAttributeKey;
+import com.amplifyframework.auth.AuthUser;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
-import com.amplifyframework.auth.options.AuthSignUpOptions;
+import com.amplifyframework.auth.options.AuthSignOutOptions;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskModel;
 import com.amplifyframework.datastore.generated.model.Team;
@@ -33,11 +32,7 @@ import com.example.taskmaster.Adaptor.TaskAdapter;
 import com.example.taskmaster.Models.TaskModel1;
 import com.example.taskmaster.R;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -214,6 +209,22 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(new TaskAdapter(taskModelsArray));
     }
 
+//        Button signOutButton = findViewById(R.id.logOut);
+//        signOutButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Amplify.Auth.signOut(
+//                        () -> Log.i("AuthQuickstart", "Signed out successfully"),
+//                        error -> Log.e("AuthQuickstart", error.toString())
+//                );
+//
+//
+//            }
+//        });
+
+
+
+
 
 
 
@@ -255,13 +266,13 @@ public class MainActivity extends AppCompatActivity {
 
         startActivity(intent);
     }
-    public void TaskDetail(View view) {
-        Intent intent = new Intent(MainActivity.this, TaskDetail.class);
-        Button TaskDetail = findViewById(R.id.TaskDetails);
-        String TaskDetailsName=TaskDetail.getText().toString();
-        intent.putExtra("TaskDetail",TaskDetailsName);
-        startActivity(intent);
+    public void logoutUser(View view) {
+        Amplify.Auth.signOut(
+                () -> Log.i("AuthQuickstart", "Signed out successfully"),
+                error -> Log.e("AuthQuickstart", error.toString())
+        );
     }
+
 
 
 
@@ -273,6 +284,19 @@ public class MainActivity extends AppCompatActivity {
         TextView teamTasks=findViewById(R.id.teamTasks);
         String userTask= sharedPreferences.getString("userName","hello user");
         String TeamTasks= sharedPreferences.getString("teamName","hello Team");
+
+        AuthUser authUser=Amplify.Auth.getCurrentUser();
+
+        TextView loggedUser=findViewById(R.id.loggedUser);
+
+        if(authUser !=null) {
+
+            loggedUser.setText(authUser.getUsername());
+        }else{
+            loggedUser.setText("No one here");
+        }
+
+
 
 //        TextView teamName=findViewById(R.id.teamTasks);
 

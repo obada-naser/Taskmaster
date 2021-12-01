@@ -21,7 +21,7 @@ Today worked on the android and established pages of :
 
 **[My Task](/app/src/main/java/com/example/taskmaster/Activities/MainActivity.java)**
 
-![myTask3](/screenshots/TeamTasks.jpg)
+![myTask3](/screenshots/myTasks36.jpg)
 
 
 **[All Tasks](/app/src/main/java/com/example/taskmaster/Activities/AllTasks.java)**
