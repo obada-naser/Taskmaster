@@ -152,7 +152,9 @@
         android:layout_marginEnd="88dp"
         android:onClick="pickFile"
         android:text="pick file"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteY="608dp" />
+        app:layout_constraintTop_toBottomOf="@+id/Teams1"
+        app:layout_constraintVertical_bias="0.285" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
