@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -56,6 +57,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         TextView status=holder.itemView.findViewById(R.id.status);
 
 
+
         title.setText(holder.Task.title);
         body.setText(holder.Task.body);
         status.setText(holder.Task.status);
@@ -68,6 +70,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 intent.putExtra("title",holder.Task.title);
                 intent.putExtra("body",holder.Task.body);
                 intent.putExtra("status",holder.Task.status);
+                intent.putExtra("Image",holder.Task.)
                 view.getContext().startActivity(intent);
             }
         });

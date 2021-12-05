@@ -3,7 +3,10 @@ package com.example.taskmaster.Activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +16,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 //import androidx.room.Room;
 
@@ -23,10 +27,16 @@ import com.amplifyframework.datastore.generated.model.TaskModel;
 import com.amplifyframework.datastore.generated.model.Team;
 import com.example.taskmaster.R;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AddTask extends AppCompatActivity {
+
+    public String imageName = "";
+    public Uri uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +57,7 @@ public class AddTask extends AppCompatActivity {
 //
 //
 //
-
-
-
+        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
 
         EditText titleName=findViewById(R.id.titleName);
         EditText bodyName=findViewById(R.id.bodyName);
@@ -93,11 +101,14 @@ public class AddTask extends AppCompatActivity {
 
 
 
+
+
 //                RadioGroup radioGroup=findViewById(R.id.Teams1);
 //                int button=radioGroup.getCheckedRadioButtonId();
 //                RadioButton choosen=findViewById(button);
 //                String choosenTeam=choosen.getText().toString();
                 String teamName=getTeamName();
+                uploadInputStream();
 
 
 
@@ -112,10 +123,13 @@ public class AddTask extends AppCompatActivity {
 
 
 
+
+
+
 //                    TaskModel1 taskModel = new TaskModel1(getTitle, getBody, getStatus);
 
                     try {
-                        TaskModel taskModel = TaskModel.builder().teamId(response1.getData().getId()).title(getTitle).body(getBody).status(getStatus).build();
+                        TaskModel taskModel = TaskModel.builder().teamId(response1.getData().getId()).title(getTitle).body(getBody).status(getStatus).imageName(imageName).build();
 
                         Amplify.API.mutate(
                                 ModelMutation.create(taskModel),
@@ -164,9 +178,12 @@ public class AddTask extends AppCompatActivity {
         }
     return teamName;
     }
+
+
     @SuppressLint("IntentReset")
     public void pickFile(View view){
-        @SuppressLint("IntentReset") Intent selectedFile=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        @SuppressLint("IntentReset") Intent selectedFile=new Intent(Intent.ACTION_GET_CONTENT);
+
         selectedFile.setType(("*/"));
             selectedFile=Intent.createChooser(selectedFile,"Select File");
         startActivityForResult(selectedFile,1234);
@@ -174,5 +191,53 @@ public class AddTask extends AppCompatActivity {
 
     }
 
+    private void uploadInputStream(){
+        if (uri!=null){
+            try{
+                InputStream inputStream=getContentResolver().openInputStream(uri);
+                Amplify.Storage.uploadInputStream(
+                        imageName,
+                        inputStream,
+                        result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+                        storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+                );
+
+            }  catch (FileNotFoundException error) {
+                Log.e("MyAmplifyApp", "Could not find file to open for input stream.", error);
+            }
+
+            }
+        }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data!=null) {
+            uri = data.getData();
+            File file = new File(uri.getPath());
+            imageName = file.getName();
+            Log.i("TAG", "onActivityResult: ");
+        }
+    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults) {
+//        switch (requestCode) {
+//            case REQUEST_ID_MULTIPLE_PERMISSIONS:
+//                if (ContextCompat.checkSelfPermission(MainActivity.this,
+//                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+//                    Toast.makeText(getApplicationContext(),
+//                            "FlagUp Requires Access to Camara.", Toast.LENGTH_SHORT)
+//                            .show();
+//                } else if (ContextCompat.checkSelfPermission(addTask.this,
+//                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                    Toast.makeText(getApplicationContext(),
+//                            "FlagUp Requires Access to Your Storage.",
+//                            Toast.LENGTH_SHORT).show();
+//                } else {
+//                    chooseImage(MainActivity.this);
+//                }
+//                break;
+//        }
+//    }
 
 }

@@ -27,5 +27,14 @@ public class TaskDetail extends AppCompatActivity {
         TextView statusDetail=findViewById(R.id.statusDetail);
         statusDetail.setText(status);
 
+
+
+
+
+
+
+
+
+
     }
 }

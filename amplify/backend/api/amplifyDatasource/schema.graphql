@@ -15,5 +15,6 @@ type TaskModel @model
   title: String!
   body: String!
   status: String!
+  imageName:String
 }
 
