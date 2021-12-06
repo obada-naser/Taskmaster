@@ -31,6 +31,7 @@ import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 import com.example.taskmaster.Adaptor.TaskAdapter;
 import com.example.taskmaster.Models.TaskModel1;
 import com.example.taskmaster.R;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,6 +102,11 @@ public class MainActivity extends AppCompatActivity {
         String gettingId=sharedPreferences.getString("teamId","");
         System.out.println("***************************************obada");
         System.out.println(gettingId);
+
+
+        System.out.println("GOOGLE GOOGLE "+   GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this));
+
+
 
 //        Log.i("id", "onCreate: "+gettingId);
 
@@ -195,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
                 response -> {
                     for (TaskModel taskModels : response.getData().getTaskModels()) {
 
-                        TaskModel1 taskModel1 = new TaskModel1(taskModels.getTitle(), taskModels.getBody(), taskModels.getStatus());
+                        TaskModel1 taskModel1 = new TaskModel1(taskModels.getTitle(), taskModels.getBody(), taskModels.getStatus(), taskModels.getImageName(),taskModels.getId());
                         Log.i("hereisthetitle", taskModels.getTitle());
 
                         taskModelsArray.add(taskModel1);

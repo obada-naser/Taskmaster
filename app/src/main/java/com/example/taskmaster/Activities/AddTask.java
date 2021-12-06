@@ -1,9 +1,14 @@
 package com.example.taskmaster.Activities;
 
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -18,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 //import androidx.room.Room;
 
 import com.amplifyframework.api.graphql.model.ModelMutation;
@@ -26,22 +32,82 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.TaskModel;
 import com.amplifyframework.datastore.generated.model.Team;
 import com.example.taskmaster.R;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class AddTask extends AppCompatActivity {
 
     public String imageName = "";
     public Uri uri;
+    Location locationData;
+
+    String location1;
+
+    private FusedLocationProviderClient fusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_task);
+
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+
+                        if (location != null) {
+                            locationData = location;
+
+                            Geocoder geocoder;
+                            List<Address> addresses = new ArrayList<>();
+                            geocoder = new Geocoder(AddTask.this, Locale.getDefault());
+
+                            try {
+                                addresses = geocoder.getFromLocation(locationData.getLatitude(), locationData.getLongitude(), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+                            String city = addresses.get(0).getLocality();
+                            String state = addresses.get(0).getAdminArea();
+                            String country = addresses.get(0).getCountryName();
+                            String postalCode = addresses.get(0).getPostalCode();
+                            String knownName = addresses.get(0).getFeatureName();
+
+
+                            System.out.println("this the city:" + city);
+                            location1=city+" "+country;
+
+                        }
+                    }
+                });
 
 //        TextView showSubmission=findViewById(R.id.submitted);
 //        showSubmission.setText("Submission");
@@ -85,30 +151,19 @@ public class AddTask extends AppCompatActivity {
         );
 
 
+
+
+
         showSubmission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Intent intent = new Intent(AddTask.this, MainActivity.class);
 
-
-
-
-
-
-
-
-
-
-
-
-
-//                RadioGroup radioGroup=findViewById(R.id.Teams1);
-//                int button=radioGroup.getCheckedRadioButtonId();
-//                RadioButton choosen=findViewById(button);
-//                String choosenTeam=choosen.getText().toString();
                 String teamName=getTeamName();
-                uploadInputStream();
+
+
+
 
 
 
@@ -121,6 +176,22 @@ public class AddTask extends AppCompatActivity {
                     String getBody=bodyName.getText().toString();
                     String getStatus=statusName.getText().toString();
 
+                    if (uri!=null){
+                        try{
+                            InputStream inputStream=getContentResolver().openInputStream(uri);
+                            Amplify.Storage.uploadInputStream(
+                                    imageName,
+                                    inputStream,
+                                    result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+                                    storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+                            );
+
+                        }  catch (FileNotFoundException error) {
+                            Log.e("MyAmplifyApp", "Could not find file to open for input stream.", error);
+                        }
+
+                    }
+
 
 
 
@@ -129,7 +200,18 @@ public class AddTask extends AppCompatActivity {
 //                    TaskModel1 taskModel = new TaskModel1(getTitle, getBody, getStatus);
 
                     try {
+
                         TaskModel taskModel = TaskModel.builder().teamId(response1.getData().getId()).title(getTitle).body(getBody).status(getStatus).imageName(imageName).build();
+
+
+                        String key=taskModel.getId();
+
+
+                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(AddTask.this);
+                        sharedPreferences.edit().putString(key, location1).apply();
+
+
+
 
                         Amplify.API.mutate(
                                 ModelMutation.create(taskModel),
@@ -191,53 +273,23 @@ public class AddTask extends AppCompatActivity {
 
     }
 
-    private void uploadInputStream(){
-        if (uri!=null){
-            try{
-                InputStream inputStream=getContentResolver().openInputStream(uri);
-                Amplify.Storage.uploadInputStream(
-                        imageName,
-                        inputStream,
-                        result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
-                        storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
-                );
 
-            }  catch (FileNotFoundException error) {
-                Log.e("MyAmplifyApp", "Could not find file to open for input stream.", error);
-            }
 
-            }
-        }
+//    private void uploadInputStream(imageName){
+
+
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data!=null) {
-            uri = data.getData();
-            File file = new File(uri.getPath());
-            imageName = file.getName();
-            Log.i("TAG", "onActivityResult: ");
-        }
-    }
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode,String[] permissions, int[] grantResults) {
-//        switch (requestCode) {
-//            case REQUEST_ID_MULTIPLE_PERMISSIONS:
-//                if (ContextCompat.checkSelfPermission(MainActivity.this,
-//                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-//                    Toast.makeText(getApplicationContext(),
-//                            "FlagUp Requires Access to Camara.", Toast.LENGTH_SHORT)
-//                            .show();
-//                } else if (ContextCompat.checkSelfPermission(addTask.this,
-//                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//                    Toast.makeText(getApplicationContext(),
-//                            "FlagUp Requires Access to Your Storage.",
-//                            Toast.LENGTH_SHORT).show();
-//                } else {
-//                    chooseImage(MainActivity.this);
-//                }
-//                break;
-//        }
-//    }
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
+        assert data!=null;
+        uri=data.getData();
+        File file=new File(uri.getPath());
+        imageName=file.getName();
+        Log.i("TAG25", "onActivityResult: ");
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+    }
 }
