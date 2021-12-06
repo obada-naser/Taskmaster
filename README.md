@@ -41,5 +41,5 @@ Today worked on the android and established pages of :
 
 **[Task Details](/app/src/main/java/com/example/taskmaster/Activities/TaskDetail.java)**
 
-![Task Details](/screenshots/TaskDetailNew.jpg)
+![Task Details](/screenshots/TaskDetailLocation.jpg)
 
