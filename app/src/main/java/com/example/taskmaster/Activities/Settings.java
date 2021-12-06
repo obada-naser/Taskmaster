@@ -38,8 +38,7 @@ public class Settings extends AppCompatActivity {
         settingNameLabel.setText(settingName);
 
 
-        //***************************
-        //get the team list from dynamo database
+
         Map< String,String> listTeam = new HashMap<>();
         Amplify.API.query(
                 ModelQuery.list(com.amplifyframework.datastore.generated.model.Team.class),
@@ -68,14 +67,7 @@ public class Settings extends AppCompatActivity {
 
 
         String userName = usersName.getText().toString();
-//
-//
-//        RadioGroup radioGroup = findViewById(R.id.Teams);
-//
-//
-//        int numId=radioGroup.getCheckedRadioButtonId();
-//
-//        RadioButton chosenButon=findViewById(numId);
+
 
 
         RadioButton radioButton = findViewById(R.id.Team1);

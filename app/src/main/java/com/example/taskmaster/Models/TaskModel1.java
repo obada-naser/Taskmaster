@@ -19,9 +19,18 @@ public class TaskModel1 {
 //    @ColumnInfo(name = "status")
     public String status;
 
-    public TaskModel1(String title, String body, String status) {
+    public String imageName;
+
+    public String key;
+
+
+
+    public TaskModel1(String title, String body, String status,String imageName,String key) {
         this.title = title;
         this.body = body;
         this.status = status;
+        this.imageName=imageName;
+        this.key=key;
+
     }
 }
